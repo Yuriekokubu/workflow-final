@@ -1,0 +1,46 @@
+<h3 class="m-4">Item Approval</h3>
+<app-budget-plan [editable]="true"></app-budget-plan>
+<hr />
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th></th>
+      <th>#</th>
+      <th>Title</th>
+      <th class="text-end pe-5">Amount</th>
+      <th class="text-end pe-5">Quantity</th>
+      <th class="text-center">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of items; track item.id) {
+      <tr [attr.id]="'item-' + item.id">
+        <td>
+          <button
+            class="btn btn-primary mx-2"
+            (click)="onConfirm(item, 'Approve')"
+            [disabled]="item.status === ItemStatus.APPROVED"
+          >
+            Approve
+          </button>
+          <button
+            class="btn btn-secondary mx-2"
+            (click)="onConfirm(item, 'Reject')"
+            [disabled]="item.status === ItemStatus.REJECTED"
+          >
+            Reject
+          </button>
+        </td>
+        <td>{{ item.id }}</td>
+        <td>{{ item.title }}</td>
+        <td class="text-end pe-5">{{ item.quantity | number: '1.2-2' }}</td>
+        <td class="text-end pe-5">{{ item.amount | number: '1.2-2' }}</td>
+        <td class="text-center">{{ item.status }}</td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="7" class="text-center">Data not found</td>
+      </tr>
+    }
+  </tbody>
+</table>

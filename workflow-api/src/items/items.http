@@ -1,0 +1,48 @@
+# items.http
+### create
+POST http://localhost:3000/items
+Content-Type: application/json
+
+{
+    "title": "Mouse2",
+    "amount": 10,
+    "quantity": 10
+}
+
+
+### find all
+GET http://localhost:3000/items
+
+### find one
+GET http://localhost:3000/items/1
+
+
+### update
+PATCH http://localhost:3000/items/2
+Content-Type: application/json
+
+{
+    "title": "Mouse wireless",
+    "contactMobileNo": "0991234567"
+}
+
+### delete
+DELETE http://localhost:3000/items/999
+
+### validation
+
+### find one by string
+GET http://localhost:3000/items/A
+
+### delete by string
+DELETE http://localhost:3000/items/6
+
+### create with wrong amount number type
+POST http://localhost:3000/items
+Content-Type: application/json
+
+{
+    "title": "",
+    "amount": "SHOUD_BE_NUM",
+    "price": 5000    
+}

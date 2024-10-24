@@ -1,0 +1,5 @@
+.fade-out {
+    background-color: lightgreen; /* Highlight approved row */
+    opacity: 1;
+    transition: opacity 0.5s ease, background-color 0.5s ease;
+  }

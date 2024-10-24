@@ -1,0 +1,49 @@
+<!-- item-form.component.html -->
+<h3 class="m-4">Item Entry / </h3>
+<hr />
+<div class="d-flex justify-content-center">
+  <form class="w-50 needs-validation" [formGroup]="fg" (ngSubmit)="onSubmit()">
+    <div>
+      <label class="form-label" for="title">Title</label>
+      <input class="form-control" [class.is-invalid]="title.errors && title.touched" formControlName="title" id="title"
+        type="text" />
+      <div class="invalid-feedback">
+        Title is required.
+      </div>
+    </div>
+    <div class="mt-3">
+      <label class="form-label" for="amount">Amount</label>
+      <input class="form-control" formControlName="amount" id="amount" type="number" />
+      <div class="invalid-feedback">
+        @if(amount.hasError('required')) {
+        Amount is required.
+        }
+        @if(amount.hasError('min')) {
+        Amount should more than {{ amount.getError('min').min }}.
+        }
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label" for="quantity">Quantity</label>
+      <input class="form-control" formControlName="quantity" id="quantity" type="number" />
+      <div class="invalid-feedback">
+        @if(quantity.hasError('required')) {
+        Quantity is required.
+        }
+        @if(amount.hasError('min')) {
+        Quantity should more than {{ amount.getError('min').min }}.
+        }
+      </div>
+    </div>
+    <!-- {{ contactMobileNo.errors | json }} -->
+    <div class="mt-3 d-flex justify-content-between">
+      <button class="btn btn-secondary" (click)="onBack()" type="button">
+        Back
+      </button>
+      <button [disabled]="!fg.valid" class="btn btn-primary" type="submit">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,52 @@
+<!-- item-entry.component.html -->
+<h3 class="m-4">Item Entry</h3>
+<app-budget-plan />
+<hr />
+
+
+<div class="row">
+  <div class="col">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="isSmallTable" [(ngModel)]="isSmallTable">
+      <label class="form-check-label" for="isSmallTable">
+        Show Small Table
+      </label>
+    </div>
+    <div>
+    </div>
+  </div>
+  <div class="col">
+    <input type="text" class="form-control" id="filter" placeholder="Filter..." [formControl]="filterInput" />
+  </div>
+</div>
+
+<hr />
+
+<table class="table table-hover">
+  <thead>
+    <th></th>
+    <th>#</th>
+    <th>Title</th>
+    <th class="text-end pe-5">Amount</th>
+    <th class="text-end pe-5">Quantity</th>
+    <th class="text-center">Status</th>
+  </thead>
+  <tbody>
+    @for (item of filterItems; track item.id) {
+      <tr>
+        <td>
+          <i class="bi bi-pencil mx-2" routerLink="/budget/item-edit/{{ item.id }}" ></i>
+          <i class="bi bi-trash mx-2" (click)="onConfirm(item)" ></i>
+        </td>
+        <td>{{ item.id }}</td>
+        <td>{{ item.title }}</td>
+        <td class="text-end pe-5">{{ item.amount | number:'1.2-2' }}</td>
+        <td class="text-end pe-5">{{ item.quantity | number:'1.2-2' }}</td>
+        <td class="text-center">{{ item.status }}</td>
+      </tr>
+    }
+    @empty {
+      <tr><td colspan="7" class="text-center">Data not found</td></tr>
+    }
+  </tbody>
+</table>

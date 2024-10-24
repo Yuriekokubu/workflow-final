@@ -1,0 +1,64 @@
+<!-- budget-plan.component.html -->
+@if (budgetPlanState(); as budgetPlan) {
+    <div class="container text-center m-3">
+      <h5 class="m-4 text-center">Plan for {{ budgetPlan.year }}</h5>
+  
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-primary" role="alert">
+            Total: {{ budgetPlan.total | number: '1.2-2' }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-dark" role="alert">
+            Available: {{ budgetPlan.available | number: '1.2-2' }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-light" role="alert">
+            Used: {{ budgetPlan.used | number: '1.2-2' }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-success" role="alert">Balance: {{ balanceState() | number: '1.2-2' }}</div>
+        </div>
+      </div>
+  
+      @if (editable) {
+        <div class="ms-3">
+          <label class="form-label me-3" for="title">Base used budget</label>
+          <div class="form-check form-check-inline">
+            <input
+              [formControl]="availablePercent"
+              [value]="0"
+              class="form-check-input"
+              type="radio"
+              id="0pct"
+            />
+            <label class="form-check-label" for="0pct">0%</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              [formControl]="availablePercent"
+              [value]="10"
+              class="form-check-input"
+              type="radio"
+              id="10pct"
+            />
+            <label class="form-check-label" for="10pct">10%</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              [formControl]="availablePercent"
+              [value]="20"
+              class="form-check-input"
+              type="radio"
+              id="20pct"
+            />
+            <label class="form-check-label" for="20pct">20%</label>
+          </div>
+        </div>
+      }
+    </div>
+  }
+  

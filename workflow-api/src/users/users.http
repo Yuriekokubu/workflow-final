@@ -1,0 +1,62 @@
+# users.http
+### create
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "a1001",
+    "password": "tae",
+    "role": "ADMIN"
+}
+
+### create with description
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "u1009",
+    "password": "tae",
+    "role": "USER",
+    "description": "general user"
+}
+
+### create
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "u1002",
+    "password": "changeit",
+    "role": "USER"
+}
+
+### find  all
+GET http://localhost:3000/users
+
+
+###
+### Admin Zone
+###
+### create
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "a1008",
+    "password": "ativat",
+    "role": "ADMIN"
+}
+
+
+###
+### Manager Zone
+###
+### create
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "m1001",
+    "password": "changeit",
+    "role": "MANAGER"
+}
