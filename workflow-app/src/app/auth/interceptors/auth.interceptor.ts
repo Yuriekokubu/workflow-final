@@ -1,4 +1,3 @@
-// auth.interceptor.ts
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, switchMap, throwError } from 'rxjs';
@@ -17,6 +16,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       setHeaders: { Authorization: `Bearer ${token}` }
     });
   }
+
   return next(req).pipe(
     catchError((error) => {
       if (
@@ -35,20 +35,27 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         return authService.refreshToken().pipe(
           switchMap((newTokens) => {
             // got { access_token } then update access_token
-            authService.setTokens({ access_token: newTokens.access_token, refresh_token });
+            // Ensure to maintain `loginMethod` as part of the tokens object
+            const updatedTokens = {
+              access_token: newTokens.access_token,
+              refresh_token: refresh_token,
+              loginMethod: loggedInUser.tokens.loginMethod,  // Preserve login method
+            };
+
+            authService.setTokens(updatedTokens);  // Update the token with login method
 
             // clone req with new access_token
             req = req.clone({
               setHeaders: { Authorization: `Bearer ${newTokens.access_token}` }
             });
 
-            // call api with new req & new access_token
+            // Retry the request with the new access_token
             return next(req);
           }),
-          catchError((error) => {
-            // logout when refresh_token is invalid
+          catchError((refreshError) => {
+            // Logout if refreshing the token fails
             authService.logout();
-            return throwError(() => error);
+            return throwError(() => refreshError);
           })
         );
       }

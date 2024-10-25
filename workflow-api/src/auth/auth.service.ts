@@ -75,7 +75,7 @@ export class AuthService {
    * Generate OAuth2 Redirect URL (Keycloak login)
    */
   getOauth2RedirectUrl(): string {
-    const auth_url = this.configService.get('OAUTH2_AUTH_URL');
+    const auth_url = this.configService.get('OAUTH2_AUTH_URL_CLIENT');
     const client_id = this.configService.get('OAUTH2_CLIENT_ID');
     const redirect_uri = encodeURIComponent(this.configService.get('OAUTH2_CALLBACK_URL'));
     const scope = encodeURIComponent(this.configService.get('OAUTH2_SCOPE'));
@@ -94,14 +94,13 @@ export class AuthService {
     const client_secret = this.configService.get('OAUTH2_CLIENT_SECRET');
     const redirect_uri = this.configService.get('OAUTH2_CALLBACK_URL');
 
-    // Log the values being used in the request to ensure they are correct
+    // Log the values being used in the request
     this.logger.log(`Attempting to exchange authorization code. Details:
       tokenUrl: ${tokenUrl},
       client_id: ${client_id},
       redirect_uri: ${redirect_uri},
       code: ${code}`);
 
-    // Create the URLSearchParams object to encode data as x-www-form-urlencoded
     const params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
@@ -110,28 +109,32 @@ export class AuthService {
     params.append('client_secret', client_secret);
 
     try {
-      // Send the request with the correct headers and data format
       const response = await axios.post(tokenUrl, params.toString(), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
 
-      // Log the full response for debugging purposes
-      this.logger.log(`Response received from token exchange: ${JSON.stringify(response.data)}`);
+      // Log the successful response data
+      this.logger.log('Authorization code exchanged successfully. Response data:');
+      this.logger.log(JSON.stringify(response.data, null, 2));
 
-      return response.data;  // contains access_token, id_token, refresh_token
+      return response.data;
     } catch (error) {
-      // Log the full error details for debugging purposes
-      this.logger.error('Error exchanging authorization code for tokens:', error.response?.data || error.message);
-      this.logger.error(`Status: ${error.response?.status || 'N/A'}`);
-      this.logger.error(`Full error: ${JSON.stringify(error.response || error)}`);
+      // Log the most important parts of the error without circular structure
+      this.logger.error('Error exchanging authorization code for tokens:', error.message);
+
+      // Check if the error contains a response (which it should in case of 400)
+      if (error.response) {
+        this.logger.error(`Status: ${error.response.status}`);
+        this.logger.error(`Response data: ${JSON.stringify(error.response.data)}`);
+      } else {
+        this.logger.error(`No response received from token endpoint.`);
+      }
 
       throw new Error('Failed to exchange authorization code.');
     }
   }
-
-
 
 
   /**

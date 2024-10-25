@@ -8,7 +8,7 @@ import { Oauth2AuthGuard } from './guards/oauth2-auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @UseInterceptors(PerfLoggerInterceptor)
   @UseGuards(LocalAuthGuard)
@@ -30,18 +30,41 @@ export class AuthController {
 
   @Post('login-oauth2')
   async loginKeycloak(@Body('code') code: string) {
-    // Exchange authorization code for tokens (Keycloak)
-    const tokens = await this.authService.exchangeCodeForTokens(code);
-    
-    // Validate user by Keycloak access token
-    const user = await this.authService.validateUserByAccessToken(tokens.access_token);
-    
-    // If user is valid, issue your own access and refresh tokens (local JWTs)
-    if (user) {
-      const localTokens = this.authService.login(user);  // Create local JWT tokens
-      return localTokens;  // Return your application's tokens
-    } else {
-      throw new Error('User validation failed');
+    try {
+      // Log the received authorization code
+      console.log(`Received authorization code: ${code}`);
+
+      // Exchange authorization code for Keycloak tokens
+      const tokens = await this.authService.exchangeCodeForTokens(code);
+      console.log('Keycloak tokens received:', tokens);
+
+      // Validate the user by access token
+      const user = await this.authService.validateUserByAccessToken(tokens.access_token);
+      console.log('User validated by Keycloak access token:', user);
+
+      // If user is valid, generate local JWT tokens
+      if (user) {
+        const localTokens = this.authService.login(user);  // Create local JWT tokens
+        console.log('Local JWT tokens generated:', localTokens);
+
+        // Log the full return object before returning it
+        const response = {
+          keycloakTokens: tokens,        // Original Keycloak tokens
+          localTokens: localTokens       // Your application's local JWT tokens
+        };
+        console.log('Returning response:', JSON.stringify(response, null, 2));
+
+        // Return both Keycloak tokens and local JWT tokens
+        return response;
+      } else {
+        console.error('User validation failed');
+        throw new Error('User validation failed');
+      }
+    } catch (error) {
+      console.error('Error during OAuth2 login process:', error.message);
+      throw new Error('Login failed: ' + error.message);
     }
   }
+
+
 }

@@ -2,9 +2,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { JsonPipe, Location } from '@angular/common';
-import { thMobile } from '../../../shared/validators/th-mobile.validator';
 import { ItemService } from '../../item.service';
-import { ItemStatus } from '../../models/item';
 import { CanComponentDeactivate } from '../../../auth/guards/can-deactivate.guard';
 import { Observable } from 'rxjs';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
@@ -32,7 +30,6 @@ export class ItemFormComponent implements OnInit, CanComponentDeactivate {
   // formControls
   title = this.fb.control<string>('', { validators: Validators.required });
   amount = this.fb.control<number>(null!, { validators: [Validators.required, Validators.min(1)] });
-  price = this.fb.control<number>(null!, { validators: [Validators.required, Validators.min(0.5)] });
   quantity = this.fb.control<number>(null!, { validators: [Validators.required, Validators.min(0.5)] });
 
 
@@ -74,15 +71,16 @@ export class ItemFormComponent implements OnInit, CanComponentDeactivate {
     console.log('isFormDirty', isFormDirty)
     if (!isFormDirty) {
       return true;
+    } else {
+      // init comfirm modal
+      const initialState: ModalOptions = {
+        initialState: {
+          title: `Confirm to leave" ?`
+        }
+      };
+      this.bsModalRef = this.modalService.show(ConfirmModalComponent, initialState);
     }
 
-    // init comfirm modal
-    const initialState: ModalOptions = {
-      initialState: {
-        title: `Confirm to leave" ?`
-      }
-    };
-    this.bsModalRef = this.modalService.show(ConfirmModalComponent, initialState);
 
     return new Observable<boolean>((observer) => {
       this.bsModalRef?.onHidden?.subscribe(() => {

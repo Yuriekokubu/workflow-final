@@ -1,33 +1,33 @@
 <!-- navbar.component.html -->
 <nav class="navbar navbar-expand-md bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand  d-flex align-items-center" routerLink="/">
-        <img src="budget.png" alt="logo" width="60" height="48">
-        <span>Workflow App</span>
-      </a>
-      <div class="navbar-collapse">
-        <ul class="navbar-nav">
-          @for (menu of menus; track menu.path) {
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="menu.path">{{ menu.title }}</a>
-            </li>
-          }
-        </ul>
-      </div>
-      <!-- add -->
-      @if (authService.loggedInUser; as loggedInUser) {
-        <span class="navbar-text">
-          <span>{{ loggedInUser.userProfile.username }}</span>
-          |
-          <i class="bi bi-box-arrow-in-right align-middle text-primary" (click)="onLogout()"></i>
-        </span>
-      } @else {
-        <button class="btn btn-outline-primary me-2" type="button" routerLink="/auth/login">
-          Login
-        </button>
-        <button class="btn btn-outline-primary ms-2" type="button" (click)="onKeycloakLogin()">
-          Login by Keycloak
-        </button>      
-      }    
+  <div class="container-fluid">
+    <a class="navbar-brand  d-flex align-items-center" routerLink="/">
+      <img src="budget.png" alt="logo" width="60" height="48">
+      <span>Workflow App</span>
+    </a>
+    <div class="navbar-collapse">
+      <ul class="navbar-nav">
+        @for (menu of getMenus(); track menu.path) {
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="menu.path">{{ menu.title }}</a>
+        </li>
+        }
+      </ul>
     </div>
-  </nav>
+    <!-- add -->
+    @if (authService.loggedInUser; as loggedInUser) {
+    <span class="navbar-text">
+      <span>{{ loggedInUser.userProfile.username }}</span>
+      |
+      <i class="bi bi-box-arrow-in-right align-middle text-primary" (click)="onLogout()"></i>
+    </span>
+    } @else {
+    <button class="btn btn-outline-primary me-2" type="button" routerLink="/auth/login">
+      Login
+    </button>
+    <button class="btn btn-outline-primary ms-2" type="button" (click)="onKeycloakLogin()">
+      Login by Keycloak
+    </button>
+    }
+  </div>
+</nav>

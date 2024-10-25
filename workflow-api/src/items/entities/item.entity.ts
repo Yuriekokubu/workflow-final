@@ -1,4 +1,3 @@
-// item.entiry.ts
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 export enum ItemStatus {
@@ -14,7 +13,13 @@ export class Item {
   @Column()
   title: string;
 
-  @Column()
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 4,
+    default: 0.0000,
+    nullable: false
+  })
   amount: number;
 
   @Column()
@@ -26,5 +31,5 @@ export class Item {
     nullable: false,
     default: ItemStatus.PENDING
   })
-  status: ItemStatus
+  status: ItemStatus;
 }

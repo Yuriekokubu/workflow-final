@@ -33,8 +33,8 @@
         </td>
         <td>{{ item.id }}</td>
         <td>{{ item.title }}</td>
+        <td class="text-end pe-5">{{ item.amount | number: '1.4-4' }}</td>
         <td class="text-end pe-5">{{ item.quantity | number: '1.2-2' }}</td>
-        <td class="text-end pe-5">{{ item.amount | number: '1.2-2' }}</td>
         <td class="text-center">{{ item.status }}</td>
       </tr>
     } @empty {
