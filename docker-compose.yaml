@@ -1,7 +1,7 @@
 version: '3'
 services:
   frontend:
-    build: ./workflow-app  # Path to the Angular frontend
+    build: ./workflow-app
     ports:
       - "4200:4200"
     depends_on:
@@ -42,8 +42,8 @@ services:
       DB_DATABASE: budget_workflow
       DB_USER: postgres
       DB_PASSWORD: password
-      KEYCLOAK_ADMIN: admin       # Set admin username
-      KEYCLOAK_ADMIN_PASSWORD: admin   # Set admin password
+      KEYCLOAK_ADMIN: admin       
+      KEYCLOAK_ADMIN_PASSWORD: admin   
       PROXY_ADDRESS_FORWARDING: "true"
     command: start-dev
     ports:

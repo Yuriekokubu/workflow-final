@@ -20,11 +20,9 @@ export class NavbarComponent {
     { path: 'budget/item-add', title: 'Add' }
   ];
 
-  // Conditionally add 'Approval' menu for ADMIN role
   getMenus() {
     const loggedInUser = this.authService.loggedInUser;
     if (loggedInUser && loggedInUser.userProfile.role === Role.ADMIN) {
-      // Add 'Approval' menu for admin
       return [...this.menus, { path: 'budget/item-approval', title: 'Approval' }];
     }
     return this.menus;

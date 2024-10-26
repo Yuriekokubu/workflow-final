@@ -12,3 +12,19 @@
     margin-right: 0; /* removes margin on the last item */
   }
   
+  .keycloak-button {
+    background: rgb(170,239,233);
+    background: linear-gradient(47deg, rgba(170,239,233,1) 0%, rgba(15,41,113,1) 65%);
+    border: none; /* Removes border to make the button look cleaner */
+  }
+  
+  .keycloak-button img {
+    object-fit: contain; /* Ensures the logo fits nicely within the button */
+    height: 30px; /* Set a fixed height to control the logo size */
+    width: 100%;
+  }
+  
+  #logout{
+    cursor: pointer;
+  }
+  

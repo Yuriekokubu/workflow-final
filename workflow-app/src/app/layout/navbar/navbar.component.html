@@ -19,14 +19,14 @@
     <span class="navbar-text">
       <span>{{ loggedInUser.userProfile.username }}</span>
       |
-      <i class="bi bi-box-arrow-in-right align-middle text-primary" (click)="onLogout()"></i>
+      <i id="logout" class="bi bi-box-arrow-in-right align-middle text-primary" (click)="onLogout()"></i>
     </span>
     } @else {
     <button class="btn btn-outline-primary me-2" type="button" routerLink="/auth/login">
       Login
     </button>
-    <button class="btn btn-outline-primary ms-2" type="button" (click)="onKeycloakLogin()">
-      Login by Keycloak
+    <button class="btn keycloak-button ms-2" type="button" (click)="onKeycloakLogin()">
+      <img src="/keycloak_logo.png" alt="Keycloak Logo" width="100%" height="30px" class="keycloak-logo">
     </button>
     }
   </div>

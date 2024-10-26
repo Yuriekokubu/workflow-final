@@ -71,16 +71,14 @@ export class ItemFormComponent implements OnInit, CanComponentDeactivate {
     console.log('isFormDirty', isFormDirty)
     if (!isFormDirty) {
       return true;
-    } else {
-      // init comfirm modal
-      const initialState: ModalOptions = {
-        initialState: {
-          title: `Confirm to leave" ?`
-        }
-      };
-      this.bsModalRef = this.modalService.show(ConfirmModalComponent, initialState);
     }
+    const initialState: ModalOptions = {
+      initialState: {
+        title: `Confirm to leave" ?`
+      }
+    };
 
+    this.bsModalRef = this.modalService.show(ConfirmModalComponent, initialState);
 
     return new Observable<boolean>((observer) => {
       this.bsModalRef?.onHidden?.subscribe(() => {

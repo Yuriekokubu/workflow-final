@@ -33,7 +33,7 @@ GET http://localhost:3000/items
 Authorization: Bearer WRONG
 
 ### approve
-PATCH http://localhost:3000/items/1/approve
+PATCH http://localhost:3000/items/45/approve
 Authorization: Bearer {{authToken}}
 
 
@@ -45,7 +45,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "username": "a1008",
+    "username": "a1004",
     "password": "tae"
 }
 
@@ -53,7 +53,7 @@ Content-Type: application/json
 @authTokenAdmin = {{loginAdmin.response.body.access_token}}
 
 ### find all
-PATCH http://localhost:3000/items/4/approve
+PATCH http://localhost:3000/items/47/approve
 Authorization: Bearer {{authTokenAdmin}}
 
 

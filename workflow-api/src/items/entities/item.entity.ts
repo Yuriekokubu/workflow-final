@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 export enum ItemStatus {
   PENDING = 'PENDING', APPROVED = 'APPROVED', REJECTED = 'REJECTED'
@@ -32,4 +32,10 @@ export class Item {
     default: ItemStatus.PENDING
   })
   status: ItemStatus;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 }

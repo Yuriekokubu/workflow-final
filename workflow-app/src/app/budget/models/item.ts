@@ -20,4 +20,7 @@ export enum ItemStatus {
     amount: number;
     quantity: number;
     status: ItemStatus;
+    createdAt?: Date;
+    updatedAt?: Date;
   }
+  
